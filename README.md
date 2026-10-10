@@ -1,75 +1,43 @@
-# React + TypeScript + Vite
+# Экзамены
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Android-приложение для автоинструктора: учёт курсантов, запись на экзамены по средам и фиксация результатов.
 
-Currently, two official plugins are available:
+Собрано как вайбкодинг-проект: реальная задача с телефона, без бэкенда и без магазина приложений. Поставил APK, пользуются, правки выкатываются новой сборкой.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Репозиторий: [github.com/Sibarit87/exam](https://github.com/Sibarit87/exam)
 
-## React Compiler
+## Зачем
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+В автошколе экзамены идут по средам. Нужно помнить, кто уже ходил, сколько попыток, когда человеку снова можно сдавать, и быстро выгрузить список на день. Excel и бумажки ломаются. Приложение живёт на телефоне и не требует интернета для повседневной работы.
 
-## Expanding the ESLint configuration
+## Что умеет
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Карточка курсанта: ФИО, дата рождения, история попыток
+- Календарь ближайших сред с записью и снятием с экзамена
+- Списки на день: копирование ФИО в буфер, отметки «сдан / не сдан / не явился»
+- Паузы между попытками: 7 дней после 1–2, 6 календарных месяцев после 3-й и дальше (срок с следующего дня, записывать можно со дня после окончания)
+- Скрытые курсанты не попадают в календарь и списки
+- Поиск по ФИО и алфавитный порядок в открытом и скрытом списках
+- Перенос данных на новый телефон через файл в Яндекс.Диск, Google Drive или Telegram
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Данные хранятся локально. Облако здесь — это шаринг JSON-копии, не сервер.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Стек
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+React 19 · TypeScript · Vite · Capacitor 8 · Android
 
+Без своей базы и API. Состояние в `localStorage`, бэкап через `@capacitor/filesystem` и `@capacitor/share`.
+
+## Как это делалось
+
+Писал с ИИ в Cursor: сначала рабочий APK, потом итерации по живым кейсам. Пауза «не 182 дня, а 6 месяцев», пустые списки после снятия всех с даты, поиск по скрытым — это правки от реального использования, а не из ТЗ.
+
+## Собрать самому
+
+```bash
+npm install
+npm run build
+npx cap sync android
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
-```
+Release APK собирается Gradle-сборкой Android-проекта. Готовый файл для установки — локально в `apk/exam.apk` (в git не лежит).
