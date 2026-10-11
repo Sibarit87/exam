@@ -4,6 +4,11 @@ Android-приложение для автоинструктора: учёт к�
 
 Собрано как вайбкодинг-проект: реальная задача с телефона, без бэкенда и без магазина приложений. Поставил APK, пользуются, правки выкатываются новой сборкой.
 
+<p align="center">
+  <img src="screenshots/exam2.jpg" alt="Курсанты" width="280">
+  <img src="screenshots/exam1.jpg" alt="Списки на экзамен" width="280">
+</p>
+
 Репозиторий: [github.com/Sibarit87/exam](https://github.com/Sibarit87/exam)
 
 ## Зачем
